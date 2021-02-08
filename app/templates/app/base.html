@@ -1,0 +1,64 @@
+{% load cart_tags %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <title>唐玄窯</title>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a href="/" class="navbar-bland">唐玄窯</a>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a href="/" class="nav-link">ホーム</a>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a href="{% url 'profile' %}" class="nav-link">プロフィール</a>
+          </li>
+          <li>
+            <li class="nav-item">
+              <a href="{% url 'order' %}" class="nav-link">
+                カート
+                <span class="badge badge-pill badge-warning">
+                  {{ request.user|itemCount }}
+                </span>
+              </a>
+            </li>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'account_logout' %}" class="nav-link">ログアウト</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a href="{% url 'account_signup' %}" class="nav-link">新規登録</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'account_login' %}" class="nav-link">ログイン</a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  
+  <main>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </main>
+
+  <footer class="py-2 bg-dark">
+    <p class="m-0 text-center text-white">Copyright &copy; 唐玄窯</p>
+  </footer>
+
+  {% block extra_js %}
+  {% endblock %}
+</body>
+</html>
