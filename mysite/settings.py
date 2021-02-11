@@ -24,14 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'jrxs*g86kit(@h*8@&&59fn==8&ejvbik))nw0p-0tig94c@vj'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -144,6 +136,24 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-STRIPE_SECRET_KEY = env('SECRET_KEY')
+DEBUG = False
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+
+if DEBUG:
+    ALLOWED_HOSTS = ['*']
+
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+else:
+    import environ
+    env = environ.Env()
+    env.read_env(os.path.join(BASE_DIR, '.env'))
+
+    SECRET_KEY = env('SECRET_KEY')
+    ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
+    STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
