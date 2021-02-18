@@ -131,15 +131,15 @@ class PaymentView(LoginRequiredMixin, View):
             item_list.append(str(order_item.item) + ':' +
                              str(order_item.quantity))
         description = ' '.join(item_list)
-        # try:
 
-        charge = stripe.Charge.create(
-            amount=amount,
-            currency='jpy',
-            description='メール:{} 住所:{} 電話番号:{} 商品名:{}'.format(
-                request.user.email, request.user.address, request.user.tel, order_items),
-            source=token,
-        )
+        try:
+            charge = stripe.Charge.create(
+                amount=amount,
+                currency='jpy',
+                description='メール:{} 住所:{} 電話番号:{} 商品名:{}'.format(
+                    request.user.email, request.user.address, request.user.tel, order_items),
+                source=token,
+            )
         except stripe.error.CardError as e:
             return render(request, 'app/error.html')
 

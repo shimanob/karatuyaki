@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
 import os
 import environ
 from pathlib import Path
@@ -156,7 +155,7 @@ else:
 
     SECRET_KEY = env('SECRET_KEY')
     ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
-    STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+    STRIPE_SECRET_KEY = env.list('STRIPE_SECRET_KEY')
 
     STATIC_ROOT = '/usr/share/nginx/html/static'
     MEDIA_ROOT = 'usr/share/nginx/html/media'
