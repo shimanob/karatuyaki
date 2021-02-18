@@ -1,0 +1,11 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+
+<div class="text-center my-5">
+    <h1 class="mb-5">カード決済がうまく行きませんでした。</h1>
+    <p class="mb-4">別のカードをお試しください。</p>
+    <a href="{% url 'payment' %}" class="btn btn-primary">別のカードを試す</a>
+</div>
+
+{% endblock %}

@@ -136,25 +136,12 @@ class PaymentView(LoginRequiredMixin, View):
         charge = stripe.Charge.create(
             amount=amount,
             currency='jpy',
-            description=description,
+            description='メール:{} 住所:{} 電話番号:{} 商品名:{}'.format(
+                request.user.email, request.user.address, request.user.tel, order_items),
             source=token,
         )
-        # except stripe.error.CardError as e:
-        # カード決済が上手く行かなかった(限度額超えとか)ので、メッセージと一緒に再度ページ表示
-        #     context = self.get_context_data()
-        #     context['message'] = 'Your payment cannot be completed. The card has been declined.'
-        #     return render(request, 'app/order.html', context)
-        # else:
-        # 上手く購入できた。Django側にも購入履歴を入れておく
-        #         OrderItem.objects.create(
-        #             item=item, user=request.user, stripe_id=charge.id)
-        #         return redirect('app:index')
-
-        # def get_context_data(self, **kwargs):
-        # """STRIPE_PUBLIC_KEYを渡したいだけ"""
-        # context = super().get_context_data(**kwargs)
-        # context['publick_key'] = settings.STRIPE_PUBLIC_KEY
-        # return context
+        except stripe.error.CardError as e:
+            return render(request, 'app/error.html')
 
         payment = Payment(user=request.user)
         payment.stripe_charge_id = charge['id']
