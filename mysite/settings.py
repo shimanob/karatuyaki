@@ -160,6 +160,3 @@ else:
 
     STATIC_ROOT = '/usr/share/nginx/html/static'
     MEDIA_ROOT = 'usr/share/nginx/html/media'
-
-    STATIC_ROOT = '/usr/share/nginx/html/static'
-    MEDIA_ROOT = '/usr/share/nginx/html/media'
