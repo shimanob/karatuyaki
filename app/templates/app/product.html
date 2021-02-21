@@ -16,7 +16,7 @@
             <hr>
             <p>価格 : <span class="text-danger font-weight-bold">{{ item_data.price }}円</span></p>
             <p class="font-weigth-bold">商品説明</p>
-            <p>{{ item_data.discription|linebreaksbr }}</p>
+            <p>{{ item_data.description|linebreaksbr }}</p>
             <a href="{% url 'additem' item_data.slug %}" class="btn btn-primary">カートに入れる</a>
           </div>
         </div>
